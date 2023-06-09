@@ -10,10 +10,12 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.modules.system.entity.SysFiles;
 import org.jeecg.modules.system.service.ISysFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,6 +70,30 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
     public Result<?> add(@RequestBody SysFiles sysFiles) {
         sysFilesService.save(sysFiles);
         return Result.OK("添加成功！");
+    }
+
+    /**
+     * 上传
+     *
+     * @param multipartFile
+     * @param request
+     * @return
+     */
+    @AutoLog(value = "知识库-文档管理-上传")
+    @ApiOperation(value = "知识库-文档管理-上传", notes = "知识库-文档管理-上传")
+    @PostMapping(value = "/upload")
+    public Result upload(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) {
+        Result result = new Result();
+        String username = JwtUtil.getUserNameByToken(request);
+        try {
+            sysFilesService.upload(multipartFile, username);
+            result.success("上传成功！");
+        }
+        catch (Exception ex) {
+            log.info(ex.getMessage(), ex);
+            result.error500("上传失败");
+        }
+        return result;
     }
 
     /**

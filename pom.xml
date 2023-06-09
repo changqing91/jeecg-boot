@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jeecgframework.boot</groupId>
@@ -8,7 +9,7 @@
 
 	<developers>
 		<developer>
-			<name>北京敲敲云科技有限公司</name>
+			<name>电商视频系统</name>
 			<email>jeecgos@163.com</email>
 		</developer>
 	</developers>
@@ -76,9 +77,9 @@
 
 	<modules>
         <module>jeecg-boot-base-core</module>
-        <module>jeecg-module-demo</module>
+<!--        <module>jeecg-module-demo</module>-->
         <module>jeecg-module-system</module>
-	</modules>
+  </modules>
 
 	<repositories>
 		<repository>
@@ -429,7 +430,7 @@
 				<!--Nacos服务地址-->
                 <config.server-addr>jeecg-boot-nacos:8848</config.server-addr>
 				<!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
-				<config.namespace></config.namespace>
+				<config.namespace/>
 				<!--Nacos配置分组名称-->
 				<config.group>DEFAULT_GROUP</config.group>
             </properties>
@@ -443,7 +444,7 @@
 				<!--Nacos服务地址-->
                 <config.server-addr>jeecg-boot-nacos:8848</config.server-addr>
 				<!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
-				<config.namespace></config.namespace>
+				<config.namespace/>
 				<!--Nacos配置分组名称-->
 				<config.group>DEFAULT_GROUP</config.group>
             </properties>
@@ -457,7 +458,7 @@
 				<!--Nacos服务地址-->
                 <config.server-addr>jeecg-boot-nacos:8848</config.server-addr>
 				<!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
-				<config.namespace></config.namespace>
+				<config.namespace/>
 				<!--Nacos配置分组名称-->
 				<config.group>DEFAULT_GROUP</config.group>
             </properties>

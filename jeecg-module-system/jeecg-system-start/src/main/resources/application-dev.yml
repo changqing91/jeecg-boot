@@ -7,7 +7,7 @@ server:
     include-stacktrace: ALWAYS
     include-message: ALWAYS
   servlet:
-    context-path: /jeecg-boot
+    context-path: /api
   compression:
     enabled: true
     min-response-size: 1024
@@ -40,7 +40,7 @@ spring:
     job-store-type: jdbc
     initialize-schema: embedded
     #定时任务启动开关，true-开  false-关
-    auto-startup: true
+    auto-startup: false
     #延迟1秒启动定时任务
     startup-delay: 1s
     #启动时更新己存在的Job
@@ -142,11 +142,17 @@ spring:
           #password: root
           #driver-class-name: com.mysql.cj.jdbc.Driver
   #redis 配置
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    port: 6379
+#    password: ''
   redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
     password: ''
+    database: 0
+    cluster:
+      nodes: 172.23.47.15:7251
+    timeout: 60000
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath*:org/jeecg/modules/**/xml/*Mapper.xml
@@ -188,10 +194,17 @@ jeecg:
     excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**
   #阿里云oss存储和大鱼短信秘钥配置
   oss:
-    accessKey: ??
-    secretKey: ??
-    endpoint: oss-cn-beijing.aliyuncs.com
-    bucketName: jeecgdev
+    accessKey: c0a2d1597d40c196
+    secretKey: 147bf3605ada83e01958d627d969eb5d
+    endpoint: http://uat-boss.bilibili.co
+    bucketName: OpenMediaManager
+  databus:
+    # 生产者请求地址
+    pubUrl: http://uat-api.bilibili.co/databus/pub
+    appKey: 057e53c1ddb88c71
+    appSecret: 5b144d2678ede61535a8e96a1231d2eb
+    topic: Video-New-T
+    group: Video-New-OpenFrontendNextVideo-P
   # ElasticSearch 6设置
   elasticsearch:
     cluster-name: jeecg-ES

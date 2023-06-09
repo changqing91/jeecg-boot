@@ -15,12 +15,23 @@ import org.jeecg.common.util.filter.FileTypeFilter;
 import org.jeecg.common.util.filter.StrAttackFilter;
 import org.jeecg.common.util.oConvertUtils;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3Configuration;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.UUID;
 
@@ -88,6 +99,11 @@ public class OssBootUtil {
     private static OSSClient ossClient = null;
 
     /**
+     * s3 oss 工具客户端
+     */
+    private static S3Client s3Client = null;
+
+    /**
      * 上传文件至阿里云 OSS
      * 文件上传成功,返回文件完整访问路径
      * 文件上传失败,返回 null
@@ -102,7 +118,8 @@ public class OssBootUtil {
         //update-end-author:liusq date:20210809 for: 过滤上传文件类型
 
         String filePath = null;
-        initOss(endPoint, accessKeyId, accessKeySecret);
+//        initOss(endPoint, accessKeyId, accessKeySecret);
+        initS3OSS(URI.create(endPoint), accessKeyId, accessKeySecret);
         StringBuilder fileUrl = new StringBuilder();
         String newBucket = bucketName;
         if(oConvertUtils.isNotEmpty(customBucket)){
@@ -110,9 +127,9 @@ public class OssBootUtil {
         }
         try {
             //判断桶是否存在,不存在则创建桶
-            if(!ossClient.doesBucketExist(newBucket)){
-                ossClient.createBucket(newBucket);
-            }
+//            if(!ossClient.doesBucketExist(newBucket)){
+//                ossClient.createBucket(newBucket);
+//            }
             // 获取文件名
             String orgName = file.getOriginalFilename();
             if("" == orgName){
@@ -130,15 +147,25 @@ public class OssBootUtil {
             //update-end-author:wangshuai date:20201012 for: 过滤上传文件夹名特殊字符，防止攻击
             fileUrl = fileUrl.append(fileDir + fileName);
 
-            if (oConvertUtils.isNotEmpty(staticDomain) && staticDomain.toLowerCase().startsWith(CommonConstant.STR_HTTP)) {
-                filePath = staticDomain + SymbolConstant.SINGLE_SLASH + fileUrl;
-            } else {
-                filePath = "https://" + newBucket + "." + endPoint + SymbolConstant.SINGLE_SLASH + fileUrl;
-            }
-            PutObjectResult result = ossClient.putObject(newBucket, fileUrl.toString(), file.getInputStream());
+            PutObjectRequest putObjectRequest = PutObjectRequest
+                    .builder()
+                    .bucket(newBucket)
+//                    .contentType("text/plain;charset=utf-8")
+                    .key(fileUrl.toString())
+                    .build();
+
+//            if (oConvertUtils.isNotEmpty(staticDomain) && staticDomain.toLowerCase().startsWith(CommonConstant.STR_HTTP)) {
+//                filePath = staticDomain + SymbolConstant.SINGLE_SLASH + fileUrl;
+//            } else {
+//                filePath = "https://" + newBucket + "." + endPoint + SymbolConstant.SINGLE_SLASH + fileUrl;
+//            }
+            filePath = endPoint + SymbolConstant.SINGLE_SLASH + newBucket + SymbolConstant.SINGLE_SLASH + fileUrl;
+//            PutObjectResult result = ossClient.putObject(newBucket, fileUrl.toString(), file.getInputStream());
+            PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
+
             // 设置权限(公开读)
 //            ossClient.setBucketAcl(newBucket, CannedAccessControlList.PublicRead);
-            if (result != null) {
+            if (putObjectResponse != null) {
                 log.info("------OSS文件上传成功------" + fileUrl);
             }
         } catch (IOException e) {
@@ -322,6 +349,30 @@ public class OssBootUtil {
                     new ClientConfiguration());
         }
         return ossClient;
+    }
+
+    /**
+     * 初始化S3OSS客户端
+     * @param endpoint
+     * @param accessKey
+     * @param secretKey
+     * @return
+     */
+    public static S3Client initS3OSS(URI endpoint, String accessKey, String secretKey) {
+        if (s3Client == null) {
+            Region region = Region.of("boss"); // 目前暂未开启 Region 校验
+            AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);
+            StaticCredentialsProvider provider = StaticCredentialsProvider.create(credentials);
+            S3Configuration config = S3Configuration.builder().pathStyleAccessEnabled(true).build();
+            s3Client = S3Client
+                    .builder()
+                    .endpointOverride(endpoint)
+                    .region(region)
+                    .credentialsProvider(provider)
+                    .serviceConfiguration(config)
+                    .build();
+        }
+        return s3Client;
     }
 
 

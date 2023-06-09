@@ -60,7 +60,7 @@ public class SysTenant implements Serializable {
     /**
      * 状态 1正常 0冻结
      */
-    @Dict(dicCode = "tenant_status")
+    @Dict(dicCode = "")
     private Integer status;
 
     /**

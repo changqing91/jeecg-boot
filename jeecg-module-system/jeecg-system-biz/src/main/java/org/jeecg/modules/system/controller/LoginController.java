@@ -5,9 +5,20 @@ import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.jeecg.common.api.vo.Result;
@@ -22,11 +33,11 @@ import org.jeecg.config.JeecgBaseConfig;
 import org.jeecg.modules.base.service.BaseCommonService;
 import org.jeecg.modules.system.entity.SysDepart;
 import org.jeecg.modules.system.entity.SysRoleIndex;
-import org.jeecg.modules.system.entity.SysTenant;
 import org.jeecg.modules.system.entity.SysUser;
 import org.jeecg.modules.system.model.SysLoginModel;
 import org.jeecg.modules.system.service.*;
 import org.jeecg.modules.system.service.impl.SysBaseApiImpl;
+import org.jeecg.modules.system.util.CookieUtil;
 import org.jeecg.modules.system.util.RandImageUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +47,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
 
 /**
  * @Author scott
@@ -70,6 +91,18 @@ public class LoginController {
 	private JeecgBaseConfig jeecgBaseConfig;
 
 	private final String BASE_CHECK_CODES = "qwertyuiplkjhgfdsazxcvbnmQWERTYUPLKJHGFDSAZXCVBNM1234567890";
+
+	private static final String API_URL = "http://dashboard-mng.bilibili.co/api/session/verify";
+
+	private  static  final  String OA_AUTH_KEY = "_AJSESSIONID";
+
+	private  static  final  String OA_API_KEY = "cd5bedd7ec989daf6bdf0a90a8615ce4";
+
+	private static String md5(String input) throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		byte[] digest = md.digest(input.getBytes());
+		return Hex.encodeHexString(digest);
+	}
 
 	@ApiOperation("登录接口")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -142,6 +175,80 @@ public class LoginController {
 		BeanUtils.copyProperties(sysUser, loginUser);
 		baseCommonService.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null,loginUser);
         //update-end--Author:wangshuai  Date:20200714  for：登录日志没有记录人员
+		return result;
+	}
+
+	@ApiOperation("OA登录接口")
+	@RequestMapping(value = "/oaLogin", method = RequestMethod.POST)
+	public Result<JSONObject> oaLogin(HttpServletRequest request){
+		Result<JSONObject> result = new Result<JSONObject>();
+
+//		CloseableHttpClient client = HttpClients.createDefault();
+
+		String _AJSESSIONID = CookieUtil.getValue(request, OA_AUTH_KEY); // retrieve the value from the cookie
+		long time = new Date().getTime() / 1000L;
+		String apiKey = OA_API_KEY; // retrieve the API key from the environment
+		String sign = null;
+		String username = null;
+		try {
+			sign = md5("caller=kfptfe" + "&session_id=" + _AJSESSIONID + "&ts=" + time + apiKey);
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
+
+		HttpPost post = new HttpPost(API_URL);
+
+		// add request parameter, form parameters
+		List<NameValuePair> urlParameters = new ArrayList<>();
+		urlParameters.add(new BasicNameValuePair("caller", "kfptfe"));
+		urlParameters.add(new BasicNameValuePair("session_id", _AJSESSIONID));
+		urlParameters.add(new BasicNameValuePair("sign", sign));
+		urlParameters.add(new BasicNameValuePair("ts", String.valueOf(time)));
+
+		try {
+			post.setEntity(new UrlEncodedFormEntity(urlParameters));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+
+		try {
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			CloseableHttpResponse response = httpClient.execute(post);
+
+			String responseBody = EntityUtils.toString(response.getEntity());
+
+			// parse the response body into a MyResponse object
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode json = mapper.readTree(responseBody);
+			String code = json.get("code").asText();
+			String message = json.get("message").asText();
+			if (code != "0") {
+				result.setMessage(message);
+				return result;
+			}
+			username = json.get("username").asText();
+		} catch (ClientProtocolException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+//		String username = sysLoginModel.getUsername();
+//
+		//1. 校验用户是否有效
+		LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.eq(SysUser::getUsername,username);
+		SysUser sysUser = sysUserService.getOne(queryWrapper);
+		result = sysUserService.checkUserIsEffective(sysUser);
+		if(!result.isSuccess()) {
+			return result;
+		}
+
+		//用户登录信息
+		userInfo(sysUser, result);
+		LoginUser loginUser = new LoginUser();
+		BeanUtils.copyProperties(sysUser, loginUser);
+		baseCommonService.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null,loginUser);
 		return result;
 	}
 
