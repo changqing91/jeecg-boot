@@ -36,14 +36,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
- /**
+/**
  * @Description: 部门权限表
  * @Author: jeecg-boot
  * @Date:   2020-02-11
  * @Version: V1.0
  */
 @Slf4j
+@ApiIgnore
 @Api(tags="部门权限表")
 @RestController
 @RequestMapping("/sys/sysDepartPermission")

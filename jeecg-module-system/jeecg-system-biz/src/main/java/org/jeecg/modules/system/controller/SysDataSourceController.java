@@ -31,6 +31,7 @@ import org.jeecg.modules.system.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,6 +46,7 @@ import java.util.List;
  * @Version: V1.0
  */
 @Slf4j
+@ApiIgnore
 @Api(tags = "多数据源管理")
 @RestController
 @RequestMapping("/sys/dataSource")

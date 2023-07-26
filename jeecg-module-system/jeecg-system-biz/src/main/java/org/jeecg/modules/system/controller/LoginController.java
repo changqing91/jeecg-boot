@@ -58,6 +58,7 @@ import java.util.Date;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @Author scott
@@ -65,6 +66,7 @@ import org.apache.http.impl.client.HttpClients;
  */
 @RestController
 @RequestMapping("/sys")
+//@ApiIgnore
 @Api(tags="用户登录")
 @Slf4j
 public class LoginController {

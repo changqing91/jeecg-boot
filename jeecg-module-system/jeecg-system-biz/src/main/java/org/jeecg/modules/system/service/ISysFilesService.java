@@ -2,7 +2,10 @@ package org.jeecg.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jeecg.modules.system.entity.SysFiles;
+import org.jeecg.modules.system.model.SysFilesTree;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @Description: 知识库-文档管理
@@ -12,5 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface ISysFilesService extends IService<SysFiles> {
 
-    void upload(MultipartFile multipartFile, String username) throws Exception;
+    String upload(MultipartFile multipartFile, String username) throws Exception;
+
+    List<SysFilesTree> getSysFilesTree(String sysFilesId)  throws Exception;
 }

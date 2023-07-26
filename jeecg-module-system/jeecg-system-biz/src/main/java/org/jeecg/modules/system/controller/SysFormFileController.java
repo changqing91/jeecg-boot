@@ -15,6 +15,7 @@ import org.jeecg.modules.system.service.ISysFormFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +28,8 @@ import java.util.Arrays;
  * @Version: V1.0
  */
 @Slf4j
-@Api(tags = "表单评论文件")
+@ApiIgnore
+@Api(tags = "表单评论文件", hidden = true)
 @RestController
 @RequestMapping("/sys/formFile")
 public class SysFormFileController extends JeecgController<SysFormFile, ISysFormFileService> {

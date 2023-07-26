@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,7 +51,8 @@ import java.util.stream.Collectors;
  * @Version: V1.0
  */
 @Slf4j
-@Api(tags = "职务表")
+@ApiIgnore
+@Api(tags = "职务表", hidden = true)
 @RestController
 @RequestMapping("/sys/position")
 public class SysPositionController {

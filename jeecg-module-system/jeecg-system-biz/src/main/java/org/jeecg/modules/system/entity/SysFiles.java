@@ -62,8 +62,8 @@ public class SysFiles {
     @ApiModelProperty(value = "更新日期")
 	private Date updateTime;
 	/**文档类型（folder:文件夹 excel:excel doc:word pp:ppt image:图片  archive:其他文档 video:视频）*/
-	@Excel(name = "文档类型（folder:文件夹 excel:excel doc:word pp:ppt image:图片  archive:其他文档 video:视频）", width = 15)
-    @ApiModelProperty(value = "文档类型（folder:文件夹 excel:excel doc:word pp:ppt image:图片  archive:其他文档 video:视频）")
+	@Excel(name = "文档类型（folder:文件夹 excel:excel doc:word pp:ppt image:图片 video:视频 audio:音频 archive:其他文档）", width = 15)
+    @ApiModelProperty(value = "文档类型（folder:文件夹 excel:excel doc:word pp:ppt image:图片 video:视频 audio:音频 archive:其他文档）")
 	private String fileType;
 	/**文件上传类型(temp/本地上传(临时文件) manage/知识库)*/
 	@Excel(name = "文件上传类型(temp/本地上传(临时文件) manage/知识库)", width = 15)

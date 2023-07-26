@@ -31,14 +31,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
- /**
+/**
  * @Description: 部门角色
  * @Author: jeecg-boot
  * @Date:   2020-02-12
  * @Version: V1.0
  */
 @Slf4j
+@ApiIgnore
 @Api(tags="部门角色")
 @RestController
 @RequestMapping("/sys/sysDepartRole")

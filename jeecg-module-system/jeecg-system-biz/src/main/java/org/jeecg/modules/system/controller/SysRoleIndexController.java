@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @Description: 角色首页配置
@@ -32,6 +33,7 @@ import io.swagger.annotations.ApiOperation;
  * @Version: V1.0
  */
 @Slf4j
+@ApiIgnore
 @Api(tags = "角色首页配置")
 @RestController
 @RequestMapping("/sys/sysRoleIndex")

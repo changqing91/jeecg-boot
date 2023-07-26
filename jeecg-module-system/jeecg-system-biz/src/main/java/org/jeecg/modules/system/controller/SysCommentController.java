@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,7 @@ import java.util.List;
  * @Date: 2022-07-19
  * @Version: V1.0
  */
+@ApiIgnore
 @Api(tags = "系统评论回复表")
 @RestController
 @RequestMapping("/sys/comment")

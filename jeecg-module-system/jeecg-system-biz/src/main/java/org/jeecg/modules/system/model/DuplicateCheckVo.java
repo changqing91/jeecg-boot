@@ -4,6 +4,7 @@ import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @Title: DuplicateCheckVo
@@ -13,6 +14,7 @@ import lombok.Data;
  * @Version V1.0
  */
 @Data
+@ApiIgnore
 @ApiModel(value="重复校验数据模型",description="重复校验数据模型")
 public class DuplicateCheckVo implements Serializable {
 	private static final long serialVersionUID = 1L;

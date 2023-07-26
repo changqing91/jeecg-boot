@@ -31,6 +31,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * <p>
@@ -40,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * @Author zhangweijian
  * @since 2018-12-28
  */
+@ApiIgnore
 @Api(tags = "数据字典")
 @RestController
 @RequestMapping("/sys/dictItem")
