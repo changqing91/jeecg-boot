@@ -14,6 +14,7 @@ import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.modules.system.entity.SysFiles;
+import org.jeecg.modules.system.model.SysFilesTree;
 import org.jeecg.modules.system.service.ISysFilesService;
 import org.jeecg.modules.vision.entity.TemplateFilesSlot;
 import org.jeecg.modules.vision.entity.VideoTemplate;
@@ -149,13 +150,13 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
     }
 
     /**
-     * 通过id查询
+     * 通过id查询单个素材
      *
      * @param id
      * @return
      */
-    @AutoLog(value = "素材管理-通过id查询")
-    @ApiOperation(value = "素材管理-通过id查询", notes = "素材管理-通过id查询")
+    @AutoLog(value = "素材管理-通过id查询单个素材")
+    @ApiOperation(value = "素材管理-通过id查询单个素材", notes = "素材管理-通过id查询单个素材")
     @GetMapping(value = "/queryById")
     public Result<?> queryById(@RequestParam(name = "id", required = true) String id) {
         SysFiles sysFiles = sysFilesService.getById(id);
@@ -163,28 +164,33 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
     }
 
     /**
-     * 通过模板Id查询
+     * 通过模板id查询
      *
      * @param templateId
-     * @return
+     * @return SysFilesTree
      */
-    @AutoLog(value = "素材管理-通过模板Id查询素材包")
-    @ApiOperation(value = "素材管理-通过模板Id查询", notes = "素材管理-通过模板Id查询")
-    @GetMapping(value = "/queryByTemplateId")
+    @AutoLog(value = "素材管理-通过模板id查询素材包")
+    @ApiOperation(value = "素材管理-通过模板id查询素材包", notes = "素材管理-通过模板id查询素材包")
+    @GetMapping(value = "/queryPackageByTemplateId")
     public Result<?> queryByTemplateId(@RequestParam(name = "templateId", required = true) Integer templateId, HttpServletRequest req) {
-//        VideoTemplate videoTemplate = videoTemplateService.getById(templateId);
-//        SysFiles sysFiles = sysFilesService.getById(videoTemplate.getFilesId());
-//        QueryWrapper<SysFiles> queryWrapper = QueryGenerator.initQueryWrapper(new SysFiles().setParentId(sysFiles.getId()), req.getParameterMap());
-//        List<SysFiles> childFiles = sysFilesService.list(queryWrapper);
-//        return Result.OK(childFiles);
         VideoTemplate videoTemplate = videoTemplateService.getById(templateId);
         String filesId = videoTemplate.getFilesId();
-        try {
-            sysFilesService.getSysFilesTree(filesId);
-        } catch (Exception e) {
-            return Result.error("未找到对应数据");
-        }
-        return Result.OK();
+        SysFilesTree sysFilesTree = sysFilesService.getSysFilesTree(filesId);
+        return Result.OK(sysFilesTree);
+    }
+
+    /**
+     * 通过id查询素材包
+     *
+     * @param filesId
+     * @return SysFilesTree
+     */
+    @AutoLog(value = "素材管理-通过id查询素材包")
+    @ApiOperation(value = "素材管理-通过id查询素材包", notes = "素材管理-通过id查询素材包")
+    @GetMapping(value = "/queryPackageById")
+    public Result<?> queryPackageById(@RequestParam(name = "filesId", required = true) String filesId, HttpServletRequest req) {
+        SysFilesTree sysFilesTree = sysFilesService.getSysFilesTree(filesId);
+        return Result.OK(sysFilesTree);
     }
 
     /**

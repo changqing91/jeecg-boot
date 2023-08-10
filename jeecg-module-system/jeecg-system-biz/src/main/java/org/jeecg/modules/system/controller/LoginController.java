@@ -241,6 +241,14 @@ public class LoginController {
 		LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
 		queryWrapper.eq(SysUser::getUsername,username);
 		SysUser sysUser = sysUserService.getOne(queryWrapper);
+//		if (sysUser == null) {
+//			// 新增用户
+//			SysUser user = new SysUser();
+//			user.setUsername(username);
+//			user.setRealname(username);
+//			sysUserService.addUserWithRole(user, "1");
+//			sysUser = user;
+//		}
 		result = sysUserService.checkUserIsEffective(sysUser);
 		if(!result.isSuccess()) {
 			return result;

@@ -18,6 +18,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cn.hutool.core.bean.BeanUtil.isNotEmpty;
+
 
 /**
  * @Description: 知识库-文档管理
@@ -52,17 +54,34 @@ public class SysFilesServiceImpl extends ServiceImpl<SysFilesMapper, SysFiles> i
         return url;
     }
 
+    private List<SysFilesTree> getSysFiles(SysFiles sysFiles) {
+        List<SysFilesTree> children = new ArrayList<>();
+        QueryWrapper<SysFiles> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("parent_id", sysFiles.getId());
+        List<SysFiles> sysFilesList = this.list(queryWrapper);
+        for (SysFiles sf : sysFilesList) {
+            if (null != sf) {
+                if (sf.getIzFolder() == "1") {
+                    // 递归
+                    List<SysFilesTree> sysFilesTreeList = getSysFiles(sf);
+                    SysFilesTree sft = new SysFilesTree(sf);
+                    sft.setChildren(sysFilesTreeList);
+                    children.add(sft);
+                } else {
+                    SysFilesTree sft = new SysFilesTree(sf);
+                    children.add(sft);
+                }
+            }
+        }
+        return children;
+    }
+
     @Override
     // 根据sysFilesId获取文件树
-    public List<SysFilesTree> getSysFilesTree(String sysFilesId) throws Exception {
-        List<SysFilesTree> list = new ArrayList<>();
-        QueryWrapper<SysFiles> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("parent_id", sysFilesId);
-        List<SysFiles> sysFilesList = this.list(queryWrapper);
-        for (SysFiles sysFiles : sysFilesList) {
-            SysFilesTree sysFilesTree = new SysFilesTree(sysFiles);
-            list.add(sysFilesTree);
-        }
-        return list;
+    public SysFilesTree getSysFilesTree(String sysFilesId) {
+        SysFiles sysFiles = this.getOne(new QueryWrapper<SysFiles>().eq("id", sysFilesId));
+        SysFilesTree sysFilesTree = new SysFilesTree(sysFiles);
+        sysFilesTree.setChildren(this.getSysFiles(sysFiles));
+        return sysFilesTree;
     }
 }
