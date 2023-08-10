@@ -7,13 +7,13 @@
 JEECG BOOT Low Code Development Platform
 ===============
 
-The Latest Version： 3.5.1（Release date：2023-04-20） 
+The Latest Version： 3.5.3（Release date：2023-07-24） 
 
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE)
 [![](https://img.shields.io/badge/Author-qiaoqiaoyun-orange.svg)](http://www.jeecg.com)
 [![](https://img.shields.io/badge/Blog-blog-blue.svg)](https://jeecg.blog.csdn.net)
-[![](https://img.shields.io/badge/version-3.5.1-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
+[![](https://img.shields.io/badge/version-3.5.3-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
 [![GitHub stars](https://img.shields.io/github/stars/zhangdaiscott/jeecg-boot.svg?style=social&label=Stars)](https://github.com/zhangdaiscott/jeecg-boot)
 [![GitHub forks](https://img.shields.io/github/forks/zhangdaiscott/jeecg-boot.svg?style=social&label=Fork)](https://github.com/zhangdaiscott/jeecg-boot)
 
@@ -44,10 +44,12 @@ Official Support: http://jeecg.com/doc/help
 
 Download the source code
 -----------------------------------
-- The background source ：https://github.com/jeecgboot/jeecg-boot
-- Front-end source (Vue3 version)：https://github.com/jeecgboot/jeecgboot-vue3
-- Front-end source (Vue2 version)：https://github.com/jeecgboot/ant-design-vue-jeecg
-- APP Supporting framework：https://github.com/jeecgboot/jeecg-uniapp
+项目源码
+-----------------------------------
+| Source |Front-end source (Vue3 version) | Front-end source (Vue2 version) | The background source |
+|-|-|-|-|
+| Github | [jeecgboot-vue3](https://github.com/jeecgboot/jeecgboot-vue3)  | [ant-design-vue-jeecg](https://github.com/jeecgboot/ant-design-vue-jeecg) | [jeecg-boot](https://github.com/jeecgboot/jeecg-boot) |
+| Gitee | [jeecgboot-vue3](https://gitee.com/jeecg/jeecgboot-vue3)  | [ant-design-vue-jeecg](https://gitee.com/jeecg/ant-design-vue-jeecg)  | [jeecg-boot](https://gitee.com/jeecg/jeecg-boot) |
 
 ##### Project description
 
@@ -56,9 +58,9 @@ Download the source code
 | `jeecg-boot`    | SpringBoot background source code (support microservices)      |
 | `jeecgboot-vue3` | Vue3+TS new front-end source code|
 | `ant-design-vue-jeecg`  |Vue2 version front-end source code     |
-| `jeecg-uniapp` | APP development framework, a code multi terminal adaptation, and support APP, small program, H5 |
+| `jeecg-uniapp` | [APP development framework, a code multi terminal adaptation, and support APP, small program, H5](https://github.com/jeecgboot/jeecg-uniapp) |
 | `jeecg-boot-starter` | [Stater relies on the project to be maintained separately. Click Download](https://gitee.com/jeecg/jeecg-boot-starter) |
-| `More` | [Download more source code](https://github.com/jeecgboot) |
+| `More` | [Download more source code](http://jeecg.com/download) |
 
 
 
@@ -84,16 +86,12 @@ Technical documentation
 -----------------------------------
 
 - Website：  [http://www.jeecg.com](http://www.jeecg.com)
-
-- Demo ： [Vue3](http://boot3.jeecg.com) | [Vue2](http://boot.jeecg.com) 
-
 - Doc：  [http://help.jeecg.com](http://help.jeecg.com)
-
 - Newbie guide： [Quick start](http://www.jeecg.com/doc/quickstart)  |  [video](https://space.bilibili.com/454617261/channel/series) |   [Q&A ](http://www.jeecg.com/doc/qa)  |   [help](http://jeecg.com/doc/help) |  [1 minute experience](https://my.oschina.net/jeecg/blog/3083313)
-
 - Microservice Development：  [Monomer upgrade to microservice](https://help.jeecg.com/java/springcloud/switchcloud/monomer.html)
-
 - QQ group ： ⑦791696430、⑥730954414、683903138、⑤860162132(full)、④774126647(full)、③816531124(full)、②769925425(full)、①284271917(full)
+- Demo ： [Vue3](http://boot3.jeecg.com) | [Vue2](http://boot.jeecg.com)  | [APP](http://jeecg.com/appIndex)
+> [please click obtain account password to obtain](http://jeecg.com/doc/demo) 
 
 
 
@@ -205,15 +203,15 @@ Technical Architecture:
 
 #### backend
 
-- Basic framework: Spring Boot 2.6.6
+- Basic framework: Spring Boot 2.6.14
 
 - Microservice framework: Spring Cloud Alibaba 2021.0.1.0
 
 - Persistence layer framework: MybatisPlus 3.5.1
 
-- Report tool: JimuReport 1.5.2
+- Report tool: JimuReport 1.5.8
 
-- Security framework: Apache Shiro 1.8.0, Jwt 3.11.0
+- Security framework: Apache Shiro 1.10.0, Jwt 3.11.0
 
 - Microservice technology stack: Spring Cloud Alibaba, Nacos, Gateway, Sentinel, Skywalking
 

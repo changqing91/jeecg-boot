@@ -5,6 +5,6 @@ __     _____ ____ ___ ___  _   _
   \ V /  | | ___) | | |_| | |\  |
    \_/  |___|____/___\___/|_| \_|
 ${AnsiColor.BRIGHT_GREEN}
-Version: 3.5.1
+Jeecg  Boot Version: 3.5.3
 Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
 ${AnsiColor.BLACK}
