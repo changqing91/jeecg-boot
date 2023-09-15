@@ -173,10 +173,11 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
     @ApiOperation(value = "素材管理-通过模板id查询素材包", notes = "素材管理-通过模板id查询素材包")
     @GetMapping(value = "/queryPackageByTemplateId")
     public Result<?> queryByTemplateId(@RequestParam(name = "templateId", required = true) Integer templateId, HttpServletRequest req) {
-        VideoTemplate videoTemplate = videoTemplateService.getById(templateId);
-        String filesId = videoTemplate.getFilesId();
-        SysFilesTree sysFilesTree = sysFilesService.getSysFilesTree(filesId);
-        return Result.OK(sysFilesTree);
+//        VideoTemplate videoTemplate = videoTemplateService.getById(templateId);
+//        String filesId = videoTemplate.getFilesId();
+//        SysFilesTree sysFilesTree = sysFilesService.getSysFilesTree(filesId);
+//        return Result.OK(sysFilesTree);
+        return null;
     }
 
     /**

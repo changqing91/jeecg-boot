@@ -117,7 +117,7 @@ public class JeecgBootExceptionHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public Result<?> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
     	log.error(e.getMessage(), e);
-        return Result.error("文件大小超出10MB限制, 请压缩或降低文件质量! ");
+        return Result.error("文件大小超出1024MB限制, 请压缩或降低文件质量! ");
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

@@ -46,9 +46,9 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  * @Date: 2023-07-19
  * @Version: V1.0
  */
-@Api(tags = "素材库-模板素材坑位")
+//@Api(tags = "素材库-模板素材坑位")
 @RestController
-@RequestMapping("/vision/templateFilesSlot")
+//@RequestMapping("/vision/templateFilesSlot")
 @Slf4j
 public class TemplateFilesSlotController extends JeecgController<TemplateFilesSlot, ITemplateFilesSlotService> {
     @Autowired
@@ -64,7 +64,7 @@ public class TemplateFilesSlotController extends JeecgController<TemplateFilesSl
      * @return
      */
     //@AutoLog(value = "素材库-模板素材坑位-分页列表查询")
-    @ApiOperation(value = "模板素材坑位-分页列表查询", notes = "模板素材坑位-分页列表查询")
+//    @ApiOperation(value = "模板素材坑位-分页列表查询", notes = "模板素材坑位-分页列表查询")
     @GetMapping(value = "/list")
     public Result<IPage<TemplateFilesSlot>> queryPageList(TemplateFilesSlot templateFilesSlot,
                                                           @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
@@ -76,7 +76,7 @@ public class TemplateFilesSlotController extends JeecgController<TemplateFilesSl
         return Result.OK(pageList);
     }
 
-    @ApiOperation(value = "模板素材坑位-根据模板Id查询", notes = "模板素材坑位-根据模板Id查询")
+//    @ApiOperation(value = "模板素材坑位-根据模板Id查询", notes = "模板素材坑位-根据模板Id查询")
     @GetMapping(value = "/queryByTemplateId")
     public Result<List<TemplateFilesSlot>> queryByTemplateId(@RequestParam(name = "templateId") Integer templateId,
                                                              HttpServletRequest req) {
@@ -95,7 +95,7 @@ public class TemplateFilesSlotController extends JeecgController<TemplateFilesSl
      * @return
      */
     @AutoLog(value = "模板素材坑位-添加")
-    @ApiOperation(value = "模板素材坑位-添加", notes = "模板素材坑位-添加")
+//    @ApiOperation(value = "模板素材坑位-添加", notes = "模板素材坑位-添加")
     @RequiresPermissions("vision:vision_template_files_slot:add")
     @PostMapping(value = "/add")
     public Result<String> add(@RequestBody TemplateFilesSlot templateFilesSlot) {
@@ -110,7 +110,7 @@ public class TemplateFilesSlotController extends JeecgController<TemplateFilesSl
      * @return
      */
     @AutoLog(value = "模板素材坑位-编辑")
-    @ApiOperation(value = "模板素材坑位-编辑", notes = "模板素材坑位-编辑")
+//    @ApiOperation(value = "模板素材坑位-编辑", notes = "模板素材坑位-编辑")
     @RequiresPermissions("vision:vision_template_files_slot:edit")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<String> edit(@RequestBody TemplateFilesSlot templateFilesSlot) {
@@ -125,7 +125,7 @@ public class TemplateFilesSlotController extends JeecgController<TemplateFilesSl
      * @return
      */
     @AutoLog(value = "模板素材坑位-通过id删除")
-    @ApiOperation(value = "模板素材坑位-通过id删除", notes = "模板素材坑位-通过id删除")
+//    @ApiOperation(value = "模板素材坑位-通过id删除", notes = "模板素材坑位-通过id删除")
     @RequiresPermissions("vision:vision_template_files_slot:delete")
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
@@ -140,7 +140,7 @@ public class TemplateFilesSlotController extends JeecgController<TemplateFilesSl
      * @return
      */
     @AutoLog(value = "模板素材坑位-批量删除")
-    @ApiOperation(value = "模板素材坑位-批量删除", notes = "模板素材坑位-批量删除")
+//    @ApiOperation(value = "模板素材坑位-批量删除", notes = "模板素材坑位-批量删除")
     @RequiresPermissions("vision:vision_template_files_slot:deleteBatch")
     @DeleteMapping(value = "/deleteBatch")
     public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
@@ -155,7 +155,7 @@ public class TemplateFilesSlotController extends JeecgController<TemplateFilesSl
      * @return
      */
     //@AutoLog(value = "模板素材坑位-通过id查询")
-    @ApiOperation(value = "模板素材坑位-通过id查询", notes = "模板素材坑位-通过id查询")
+//    @ApiOperation(value = "模板素材坑位-通过id查询", notes = "模板素材坑位-通过id查询")
     @GetMapping(value = "/queryById")
     public Result<TemplateFilesSlot> queryById(@RequestParam(name = "id", required = true) String id) {
         TemplateFilesSlot templateFilesSlot = templateFilesSlotService.getById(id);

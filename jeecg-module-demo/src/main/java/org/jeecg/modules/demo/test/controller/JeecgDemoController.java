@@ -41,7 +41,7 @@ import java.util.List;
  * @Version:V2.0
  */
 @Slf4j
-@Api(tags = "单表DEMO")
+//@Api(tags = "单表DEMO")
 @RestController
 @RequestMapping("/test/jeecgDemo")
 public class JeecgDemoController extends JeecgController<JeecgDemo, IJeecgDemoService> {
@@ -60,7 +60,7 @@ public class JeecgDemoController extends JeecgController<JeecgDemo, IJeecgDemoSe
      * @param req
      * @return
      */
-    @ApiOperation(value = "获取Demo数据列表", notes = "获取所有Demo数据列表")
+//    @ApiOperation(value = "获取Demo数据列表", notes = "获取所有Demo数据列表")
     @GetMapping(value = "/list")
     @PermissionData(pageComponent = "jeecg/JeecgDemoList")
     public Result<?> list(JeecgDemo jeecgDemo, @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
@@ -85,7 +85,7 @@ public class JeecgDemoController extends JeecgController<JeecgDemo, IJeecgDemoSe
      */
     @PostMapping(value = "/add")
     @AutoLog(value = "添加测试DEMO")
-    @ApiOperation(value = "添加DEMO", notes = "添加DEMO")
+//    @ApiOperation(value = "添加DEMO", notes = "添加DEMO")
     public Result<?> add(@RequestBody JeecgDemo jeecgDemo) {
         jeecgDemoService.save(jeecgDemo);
         return Result.OK("添加成功！");
@@ -98,7 +98,7 @@ public class JeecgDemoController extends JeecgController<JeecgDemo, IJeecgDemoSe
      * @return
      */
     @AutoLog(value = "编辑DEMO", operateType = CommonConstant.OPERATE_TYPE_3)
-    @ApiOperation(value = "编辑DEMO", notes = "编辑DEMO")
+//    @ApiOperation(value = "编辑DEMO", notes = "编辑DEMO")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
     public Result<?> edit(@RequestBody JeecgDemo jeecgDemo) {
         jeecgDemoService.updateById(jeecgDemo);
@@ -113,7 +113,7 @@ public class JeecgDemoController extends JeecgController<JeecgDemo, IJeecgDemoSe
      */
     @AutoLog(value = "删除测试DEMO")
     @DeleteMapping(value = "/delete")
-    @ApiOperation(value = "通过ID删除DEMO", notes = "通过ID删除DEMO")
+//    @ApiOperation(value = "通过ID删除DEMO", notes = "通过ID删除DEMO")
     public Result<?> delete(@RequestParam(name = "id", required = true) String id) {
         jeecgDemoService.removeById(id);
         return Result.OK("删除成功!");
@@ -126,7 +126,7 @@ public class JeecgDemoController extends JeecgController<JeecgDemo, IJeecgDemoSe
      * @return
      */
     @DeleteMapping(value = "/deleteBatch")
-    @ApiOperation(value = "批量删除DEMO", notes = "批量删除DEMO")
+//    @ApiOperation(value = "批量删除DEMO", notes = "批量删除DEMO")
     public Result<?> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.jeecgDemoService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.OK("批量删除成功！");
@@ -139,7 +139,7 @@ public class JeecgDemoController extends JeecgController<JeecgDemo, IJeecgDemoSe
      * @return
      */
     @GetMapping(value = "/queryById")
-    @ApiOperation(value = "通过ID查询DEMO", notes = "通过ID查询DEMO")
+//    @ApiOperation(value = "通过ID查询DEMO", notes = "通过ID查询DEMO")
     public Result<?> queryById(@ApiParam(name = "id", value = "示例id", required = true) @RequestParam(name = "id", required = true) String id) {
         JeecgDemo jeecgDemo = jeecgDemoService.getById(id);
         return Result.OK(jeecgDemo);
