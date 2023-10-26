@@ -8,18 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class VideoUtil {
-
-    public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
-        String videoPath = "D:\\Projects\\AeRender\\output\\3b090344-579d-44b4-ba2d-adbdcdeb45b1.mp4";
-        String imagePath = "D:\\Projects\\AeRender\\output\\path_to_save_image.png";
-
-        getVideoFirstFrame(videoPath, imagePath);
-
-        long endTime = System.currentTimeMillis();
-        System.out.println("视频首帧提取耗时：" + (endTime - startTime) + "ms");
-    }
-
     public static void getVideoFirstFrame(String videoPath, String imagePath) {
         try {
             if (videoPath == null || imagePath == null || videoPath.isEmpty() || imagePath.isEmpty()) {
@@ -34,7 +22,7 @@ public class VideoUtil {
             }
 
             ProcessBuilder processBuilder = new ProcessBuilder(
-                    "D:\\Program Files\\ffmpeg-master-latest-win64-gpl\\bin\\ffmpeg.exe",
+                    "ffmpeg",
                     "-i", videoPath,
                     "-ss", "00:00:01",
                     "-vframes", "1",
@@ -61,5 +49,16 @@ public class VideoUtil {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
+        String videoPath = "D:\\Projects\\AeRender\\output\\3b090344-579d-44b4-ba2d-adbdcdeb45b1.mp4";
+        String imagePath = "D:\\Projects\\AeRender\\output\\path_to_save_image.png";
+
+        getVideoFirstFrame(videoPath, imagePath);
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("视频首帧提取耗时：" + (endTime - startTime) + "ms");
     }
 }

@@ -3,16 +3,14 @@ package org.jeecg.modules.vision.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.UUIDGenerator;
-import org.jeecg.modules.vision.entity.Task;
-import org.jeecg.modules.vision.service.ITaskService;
+import org.jeecg.modules.vision.entity.VideoJob;
+import org.jeecg.modules.vision.service.IVideoJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +22,13 @@ import java.util.Arrays;
  * @Date: 2023-04-24
  * @Version: V1.0
  */
-@Api(tags = "视频-任务管理")
-@RestController
-@RequestMapping("/vision/task")
+//@Api(tags = "视频-任务管理")
+//@RestController
+//@RequestMapping("/vision/task")
 @Slf4j
-public class TaskController extends JeecgController<Task, ITaskService> {
+public class VideoJobController extends JeecgController<VideoJob, IVideoJobService> {
     @Autowired
-    private ITaskService taskService;
+    private IVideoJobService taskService;
 
 
     /**
@@ -43,15 +41,15 @@ public class TaskController extends JeecgController<Task, ITaskService> {
      * @return
      */
     //@AutoLog(value = "任务分页列表查询")
-    @ApiOperation(value = "任务分页列表查询", notes = "任务分页列表查询")
+//    @ApiOperation(value = "任务分页列表查询", notes = "任务分页列表查询")
     @GetMapping(value = "/list")
-    public Result<IPage<Task>> queryPageList(Task task,
-                                             @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
-                                             HttpServletRequest req) {
-        QueryWrapper<Task> queryWrapper = QueryGenerator.initQueryWrapper(task, req.getParameterMap());
-        Page<Task> page = new Page<Task>(pageNo, pageSize);
-        IPage<Task> pageList = taskService.page(page, queryWrapper);
+    public Result<IPage<VideoJob>> queryPageList(VideoJob task,
+                                                 @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                 @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                 HttpServletRequest req) {
+        QueryWrapper<VideoJob> queryWrapper = QueryGenerator.initQueryWrapper(task, req.getParameterMap());
+        Page<VideoJob> page = new Page<VideoJob>(pageNo, pageSize);
+        IPage<VideoJob> pageList = taskService.page(page, queryWrapper);
         return Result.OK(pageList);
     }
 
@@ -62,9 +60,9 @@ public class TaskController extends JeecgController<Task, ITaskService> {
      * @return
      */
     @AutoLog(value = "任务添加")
-    @ApiOperation(value = "任务添加", notes = "任务添加")
+//    @ApiOperation(value = "任务添加", notes = "任务添加")
     @PostMapping(value = "/add")
-    public Result<Task> add(@RequestBody Task task) {
+    public Result<VideoJob> add(@RequestBody VideoJob task) {
         String id = UUIDGenerator.generate();
         task.setId(id);
         taskService.save(task);
@@ -78,9 +76,9 @@ public class TaskController extends JeecgController<Task, ITaskService> {
      * @return
      */
     @AutoLog(value = "任务编辑")
-    @ApiOperation(value = "任务编辑", notes = "任务编辑")
+//    @ApiOperation(value = "任务编辑", notes = "任务编辑")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
-    public Result<String> edit(@RequestBody Task task) {
+    public Result<String> edit(@RequestBody VideoJob task) {
         taskService.updateById(task);
         return Result.OK("编辑成功!");
     }
@@ -92,7 +90,7 @@ public class TaskController extends JeecgController<Task, ITaskService> {
      * @return
      */
     @AutoLog(value = "任务通过id删除")
-    @ApiOperation(value = "任务通过id删除", notes = "任务通过id删除")
+//    @ApiOperation(value = "任务通过id删除", notes = "任务通过id删除")
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
         taskService.removeById(id);
@@ -106,7 +104,7 @@ public class TaskController extends JeecgController<Task, ITaskService> {
      * @return
      */
     @AutoLog(value = "任务批量删除")
-    @ApiOperation(value = "任务批量删除", notes = "任务批量删除")
+//    @ApiOperation(value = "任务批量删除", notes = "任务批量删除")
     @DeleteMapping(value = "/deleteBatch")
     public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.taskService.removeByIds(Arrays.asList(ids.split(",")));
@@ -120,10 +118,10 @@ public class TaskController extends JeecgController<Task, ITaskService> {
      * @return
      */
     //@AutoLog(value = "任务通过id查询")
-    @ApiOperation(value = "任务通过id查询", notes = "任务通过id查询")
+//    @ApiOperation(value = "任务通过id查询", notes = "任务通过id查询")
     @GetMapping(value = "/queryById")
-    public Result<Task> queryById(@RequestParam(name = "id", required = true) String id) {
-        Task task = taskService.getById(id);
+    public Result<VideoJob> queryById(@RequestParam(name = "id", required = true) String id) {
+        VideoJob task = taskService.getById(id);
         if (task == null) {
             return Result.error("未找到对应数据");
         }

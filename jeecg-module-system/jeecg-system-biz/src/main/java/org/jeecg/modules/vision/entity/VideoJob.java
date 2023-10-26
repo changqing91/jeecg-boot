@@ -22,35 +22,30 @@ import java.util.Date;
  * @Version: V1.0
  */
 @Data
-@TableName("vision_task")
+@TableName("vision_video_job")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="vision_task对象", description="vision_task")
-public class Task implements Serializable {
+@ApiModel(value="vision_video_job对象", description="vision_video_job")
+public class VideoJob implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**id*/
-	@TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "id")
-    private String id;
-	/**jobs*/
-	@Excel(name = "jobs", width = 15)
-    @ApiModelProperty(value = "jobs")
-    private String jobs;
-    /**jobs*/
-    @Excel(name = "info", width = 15)
-    @ApiModelProperty(value = "info")
-    private String info;
-    /**ctime*/
-	@Excel(name = "ctime", width = 15, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    private java.lang.String id;
+    @ApiModelProperty(value = "videoTemplateId")
+    private java.lang.String videoTemplateId;
+    @ApiModelProperty(value = "动态卡槽配置json")
+    private java.lang.String clipsJson;
+    @ApiModelProperty(value = "author")
+    private java.lang.String author;
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "ctime")
-    private Date ctime;
-	/**mtime*/
-	@Excel(name = "mtime", width = 15, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    private java.util.Date ctime;
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "mtime")
-    private Date mtime;
+    private java.util.Date mtime;
+    @ApiModelProperty(value = "Created：已创建，未合成；Processing：正在合成；Done: 完成")
+    private java.lang.String status;
 }

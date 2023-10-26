@@ -57,6 +57,14 @@ public class VideoTemplate implements Serializable {
     @Excel(name = "height", width = 15)
     @ApiModelProperty(value = "height")
     private java.lang.Integer height;
+    /**分辨率*/
+    @Excel(name = "resolution", width = 15)
+    @ApiModelProperty(value = "resolution")
+    private java.lang.String resolution;
+    /**比例：16:9*/
+    @Excel(name = "ratio", width = 15)
+    @ApiModelProperty(value = "ratio")
+    private java.lang.String ratio;
     /**version*/
     @Excel(name = "version", width = 15)
     @ApiModelProperty(value = "version")

@@ -54,7 +54,7 @@ public class Swagger2Config implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
     /**
@@ -68,7 +68,7 @@ public class Swagger2Config implements WebMvcConfigurer {
                 .apiInfo(apiInfo())
                 .select()
                 //此包路径下的类，才生成接口文档
-                .apis(RequestHandlerSelectors.basePackage("org.jeecg"))
+                .apis(RequestHandlerSelectors.basePackage("org.jeecg.modules.vision"))
                 //加了ApiOperation注解的类，才生成接口文档
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
@@ -109,14 +109,14 @@ public class Swagger2Config implements WebMvcConfigurer {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 // //大标题
-                .title("视频系统 后台服务API接口文档")
+                .title("Vision")
                 // 版本号
-                .version("1.0")
+                .version("1.0.0")
 //				.termsOfServiceUrl("NO terms of service")
                 // 描述
-                .description("后台API接口")
+                .description("Vision视频平台API接口文档")
                 // 作者
-                .contact(new Contact("电商视频系统","",""))
+                .contact(new Contact("changqing","","changqing@bilibili.com"))
                 .license("The Apache License, Version 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .build();

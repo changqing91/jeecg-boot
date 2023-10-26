@@ -21,6 +21,10 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.vision.entity.Video;
+import org.jeecg.modules.vision.entity.VideoJob;
+import org.jeecg.modules.vision.entity.VideoTemplate;
+import org.jeecg.modules.vision.entity.VideoTemplateVersion;
+import org.jeecg.modules.vision.service.IVideoJobService;
 import org.jeecg.modules.vision.service.IVideoService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -28,10 +32,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
+import org.jeecg.modules.vision.service.IVideoTemplateService;
+import org.jeecg.modules.vision.service.IVideoTemplateVersionService;
 import org.jeecg.modules.vision.utils.BasicAuth;
 import org.jeecg.modules.vision.utils.DownloadUtil;
 import org.jeecg.modules.vision.utils.MultiThreadDownload;
 import org.jeecg.common.system.base.controller.JeecgController;
+import org.jeecg.modules.vision.vo.VideoJobVo;
 import org.jeecg.modules.vision.vo.VideoNew;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,12 +50,12 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 /**
- * @Description: 视频-视频管理
+ * @Description: 视频管理
  * @Author: jeecg-boot
  * @Date: 2023-04-24
  * @Version: V1.0
  */
-@Api(tags = "视频-视频管理")
+@Api(tags = "视频管理")
 @RestController
 @RequestMapping("/vision/video")
 @Slf4j
@@ -56,22 +63,32 @@ public class VideoController extends JeecgController<Video, IVideoService> {
     @Autowired
     private IVideoService videoService;
 
+    @Autowired
+    private IVideoJobService videoJobService;
+
+    @Autowired
+    private IVideoTemplateVersionService templateVersionService;
+
+    @Autowired
+    private IVideoTemplateService templateService;
+
+
     private static final String downloadPath = "/tmp/mall-video/";
 
-    @Value("${jeecg.databus.pubUrl}")
-    private String DATABUS_URL;
-
-    @Value("${jeecg.databus.topic}")
-    private String DATABUS_TOPIC;
-
-    @Value("${jeecg.databus.group}")
-    private String DATABUS_GROUP;
-
-    @Value("${jeecg.databus.appKey}")
-    private String DATABUS_APPKEY;
-
-    @Value("${jeecg.databus.appSecret}")
-    private String DATABUS_APPSECRET;
+//    @Value("${jeecg.databus.pubUrl}")
+//    private String DATABUS_URL;
+//
+//    @Value("${jeecg.databus.topic}")
+//    private String DATABUS_TOPIC;
+//
+//    @Value("${jeecg.databus.group}")
+//    private String DATABUS_GROUP;
+//
+//    @Value("${jeecg.databus.appKey}")
+//    private String DATABUS_APPKEY;
+//
+//    @Value("${jeecg.databus.appSecret}")
+//    private String DATABUS_APPSECRET;
 
     /**
      * 分页列表查询
@@ -103,7 +120,7 @@ public class VideoController extends JeecgController<Video, IVideoService> {
      */
     @AutoLog(value = "视频添加")
     @ApiOperation(value = "视频添加", notes = "视频添加")
-    @RequiresPermissions("mall:vision_video:add")
+//    @RequiresPermissions("mall:vision_video:add")
     @PostMapping(value = "/add")
     public Result<String> add(@RequestBody Video video) {
         videoService.save(video);
@@ -119,7 +136,7 @@ public class VideoController extends JeecgController<Video, IVideoService> {
     @AutoLog(value = "视频编辑")
     @ApiOperation(value = "视频编辑", notes = "视频编辑")
     @RequiresPermissions("mall:vision_video:edit")
-    @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequestMapping(value = "/edit", method = {RequestMethod.POST})
     public Result<String> edit(@RequestBody Video video) {
         videoService.updateById(video);
         return Result.OK("编辑成功!");
@@ -132,7 +149,7 @@ public class VideoController extends JeecgController<Video, IVideoService> {
      * @return
      */
     @AutoLog(value = "视频通过id删除")
-    @ApiOperation(value = "视频通过id删除", notes = "视频通过id删除")
+//    @ApiOperation(value = "视频通过id删除", notes = "视频通过id删除")
     @RequiresPermissions("mall:vision_video:delete")
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
@@ -147,7 +164,7 @@ public class VideoController extends JeecgController<Video, IVideoService> {
      * @return
      */
     @AutoLog(value = "视频批量删除")
-    @ApiOperation(value = "视频批量删除", notes = "视频批量删除")
+//    @ApiOperation(value = "视频批量删除", notes = "视频批量删除")
     @RequiresPermissions("mall:vision_video:deleteBatch")
     @DeleteMapping(value = "/deleteBatch")
     public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
@@ -207,7 +224,7 @@ public class VideoController extends JeecgController<Video, IVideoService> {
      * @param response
      * @return
      */
-    @ApiOperation(value = "视频下载", notes = "视频下载")
+    @ApiOperation(value = "视频批量下载", notes = "视频批量下载")
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public void download(Video video,
                          @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
@@ -337,79 +354,180 @@ public class VideoController extends JeecgController<Video, IVideoService> {
 //		 }
 //	 }
 
+//    /**
+//     * 提交智能生产任务
+//     *
+//     * @param videoNew
+//     * @return
+//     */
+//    @ApiOperation(value = "提交视频生产任务", notes = "提交视频生产任务")
+//    @RequestMapping(value = "/submitMediaJob", method = RequestMethod.POST)
+//    public Result<?> publish(@RequestBody VideoNew videoNew) {
+//        try {
+//            String auth = BasicAuth.generateAuth(DATABUS_APPKEY, DATABUS_APPSECRET);
+//            String url = DATABUS_URL;
+//            String query = "topic=" + URLEncoder.encode(DATABUS_TOPIC, "UTF-8") + "&group=" + URLEncoder.encode(DATABUS_GROUP, "UTF-8");
+//            String templateId = videoNew.getTemplateId();
+//            JSONArray clipsJson = videoNew.getClipsJson();
+//
+////            String clipsJsonStr = clipsJson.toString();
+//
+//            JSONObject body = new JSONObject();
+//
+//            JSONObject data = new JSONObject();
+//
+//            JSONArray jsonArray = new JSONArray();
+//
+//            JSONObject item = new JSONObject();
+//
+//            item.put("templateId", templateId);
+//            item.put("clipsJson", clipsJson);
+//
+//            data.put("key", UUID.randomUUID().toString().replace("-", ""));
+//            data.put("value", item);
+//
+//            jsonArray.add(data);
+//
+//            body.put("records", jsonArray);
+//
+//            String reqBody = body.toString();
+//
+//            // 创建连接
+//            URL obj = new URL(url + "?" + query);
+//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//            con.setRequestMethod("POST");
+//
+//            // 添加请求头
+//            con.setRequestProperty("Authorization", auth);
+//            con.setRequestProperty("Content-Type", "application/json");
+//
+//            // 发送POST请求
+//            con.setDoOutput(true);
+//			 con.getOutputStream().write(reqBody.getBytes("UTF-8"));
+//            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+//            wr.writeBytes(reqBody);
+//            wr.flush();
+//            wr.close();
+//
+//            System.out.println("发送POST请求，请求路径：" + url + "?" + query);
+//            System.out.println("POST请求参数：" + reqBody);
+//
+//            // 获取响应
+//            int responseCode = con.getResponseCode();
+//            String msg = con.getResponseMessage();
+//            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), Charset.forName("UTF-8")));
+//            String inputLine;
+//            StringBuffer response = new StringBuffer();
+//            while ((inputLine = in.readLine()) != null) {
+//                response.append(inputLine);
+//            }
+//            in.close();
+//
+//            // 输出响应
+//            System.out.println("请求响应：" + response.toString());
+//            return Result.OK(response);
+//        } catch (Exception e) {
+//            System.out.println("发送POST请求出现异常：" + e.getMessage());
+//            return Result.error("发布失败：" + e.getMessage());
+//        }
+//    }
+
+    public boolean validateClipsJson(JSONArray clipsJson) {
+        for (int i = 0; i < clipsJson.size(); i++) {
+            JSONArray clipArray = clipsJson.getJSONArray(i);
+            for (int j = 0; j < clipArray.size(); j++) {
+                JSONObject clipObject = clipArray.getJSONObject(j);
+                if (!clipObject.has("id") || !(clipObject.has("url") || clipObject.has("text"))) {
+                    return false; // Missing 'id' or 'url' in at least one item
+                }
+            }
+        }
+        return true; // All items contain 'id' and 'url'
+    }
+
+
     /**
-     * 视频databus生产
+     * 提交智能生产任务
      *
      * @param videoNew
      * @return
      */
-    @ApiOperation(value = "视频databus生产", notes = "视频databus生产")
+    @ApiOperation(value = "提交视频生产任务", notes = "提交视频生产任务")
     @RequestMapping(value = "/submitMediaJob", method = RequestMethod.POST)
     public Result<?> publish(@RequestBody VideoNew videoNew) {
         try {
-            String auth = BasicAuth.generateAuth(DATABUS_APPKEY, DATABUS_APPSECRET);
-            String url = DATABUS_URL;
-            String query = "topic=" + URLEncoder.encode(DATABUS_TOPIC, "UTF-8") + "&group=" + URLEncoder.encode(DATABUS_GROUP, "UTF-8");
             String templateId = videoNew.getTemplateId();
             JSONArray clipsJson = videoNew.getClipsJson();
-
-            String clipsJsonStr = clipsJson.toString();
-
-            JSONObject data = new JSONObject();
-
-            JSONArray jsonArray = new JSONArray();
-
-            JSONObject item = new JSONObject();
-
-            item.put("templateId", templateId);
-            item.put("clipsJson", clipsJsonStr);
-
-            data.put("key", UUID.randomUUID().toString().replace("-", ""));
-            data.put("value", item);
-
-            jsonArray.add(item);
-
-            data.put("records", jsonArray);
-
-            String reqBody = data.toString();
-
-            // 创建连接
-            URL obj = new URL(url + "?" + query);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            con.setRequestMethod("POST");
-
-            // 添加请求头
-            con.setRequestProperty("Authorization", auth);
-            con.setRequestProperty("Content-Type", "application/json");
-
-            // 发送POST请求
-            con.setDoOutput(true);
-//			 con.getOutputStream().write(reqBody.getBytes("UTF-8"));
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(reqBody);
-            wr.flush();
-            wr.close();
-
-            System.out.println("发送POST请求，请求路径：" + url + "?" + query);
-            System.out.println("POST请求参数：" + reqBody);
-
-            // 获取响应
-            int responseCode = con.getResponseCode();
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), Charset.forName("UTF-8")));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            if (null == templateId) {
+                return Result.error("templateId为空");
             }
-            in.close();
-
-            // 输出响应
-            System.out.println("请求响应：" + response.toString());
-            return Result.OK(response);
+            if (null == clipsJson) {
+                return Result.error("clipsJson为空");
+            }
+            if (!validateClipsJson(clipsJson)) {
+                return Result.error("clipsJson数据格式有误：缺少id或url信息，或非二维数组");
+            }
+            VideoTemplate template = templateService.getById(templateId);
+            if (null == template) {
+                return Result.error("无效模板");
+            }
+            VideoJob job = new VideoJob();
+            job.setVideoTemplateId(templateId);
+            String clipsJsonStr = clipsJson.toString();
+            job.setClipsJson(clipsJsonStr);
+            job.setStatus("Created");
+            videoJobService.save(job);
+            return Result.OK(job);
         } catch (Exception e) {
-            System.out.println("发送POST请求出现异常：" + e.getMessage());
-            return Result.error("发布失败：" + e.getMessage());
+            return Result.error(e.getMessage());
         }
+    }
+
+    /**
+     * 查询智能生产任务
+     *
+     * @return
+     */
+    @RequestMapping(value = "/queryCreatedMediaJob", method = RequestMethod.GET)
+    public Result<VideoJobVo> queryOneCreatedMediaJob() {
+        VideoJobVo jobVo = new VideoJobVo();
+        List<VideoJob> jobList = videoJobService.list(new QueryWrapper<VideoJob>().eq("status", "Created"));
+        if (jobList.size() == 0) {
+            return Result.OK(null);
+        }
+        VideoJob job = jobList.get(0);
+        if (job == null) {
+            return Result.OK(null);
+        }
+        QueryWrapper query = new QueryWrapper<VideoTemplateVersion>()
+                .eq("video_template_id", job.getVideoTemplateId())
+                .eq("is_current", 1);
+        VideoTemplateVersion currentVersion = templateVersionService.getOne(query);
+        jobVo.setVideoTemplateVersion(currentVersion);
+        jobVo.setId(job.getId());
+        jobVo.setStatus(job.getStatus());
+        jobVo.setClipsJson(job.getClipsJson());
+        return Result.OK(jobVo);
+    }
+
+    /**
+     * 更新智能生产任务状态
+     *
+     * @return
+     */
+    @ApiOperation(value = "提交视频生产任务", notes = "提交视频生产任务")
+    @RequestMapping(value = "/changeMediaJobStatusById", method = RequestMethod.POST)
+    public Result<?> changeMediaJobStatusById(@RequestBody VideoJobVo videoJobVo) {
+        String status = videoJobVo.getStatus();
+        String id = videoJobVo.getId();
+        // Created：已创建，未合成；Processing：正在合成；Done: 完成
+        if (!"Created".equals(status) && !"Processing".equals(status) && !"Done".equals(status)) {
+            return Result.error("状态错误");
+        }
+        VideoJob job = videoJobService.getById(id);
+        job.setStatus(status);
+        videoJobService.updateById(job);
+        return Result.OK(job);
     }
 
 

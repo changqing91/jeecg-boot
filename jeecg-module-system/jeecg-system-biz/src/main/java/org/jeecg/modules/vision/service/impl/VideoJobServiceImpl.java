@@ -1,9 +1,9 @@
 package org.jeecg.modules.vision.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.jeecg.modules.vision.entity.Task;
+import org.jeecg.modules.vision.entity.VideoJob;
 import org.jeecg.modules.vision.mapper.TaskMapper;
-import org.jeecg.modules.vision.service.ITaskService;
+import org.jeecg.modules.vision.service.IVideoJobService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Service;
  * @Version: V1.0
  */
 @Service
-public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements ITaskService {
+public class VideoJobServiceImpl extends ServiceImpl<TaskMapper, VideoJob> implements IVideoJobService {
 
 }

@@ -151,8 +151,15 @@ spring:
     password: ''
     database: 0
     cluster:
-      nodes: 172.23.47.15:7251
-    timeout: 60000
+      nodes:
+        - 10.150.14.24:6898
+        - 10.150.13.48:7003
+        - 10.150.14.47:7091
+        - 10.150.17.40:6883
+        - 10.150.14.25:7116
+        - 10.150.17.45:7033
+      timeout: 60000
+
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath*:org/jeecg/modules/**/xml/*Mapper.xml

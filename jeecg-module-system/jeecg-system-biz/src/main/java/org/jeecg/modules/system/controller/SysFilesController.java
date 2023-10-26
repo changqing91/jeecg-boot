@@ -30,13 +30,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @Description: 素材库-素材管理
+ * @Description: 素材库管理
  * @Author: jeecg-boot
  * @Date: 2022-07-21
  * @Version: V1.0
  */
 @Slf4j
-@Api(tags = "素材库-素材管理")
+@Api(tags = "素材库管理")
 @RestController
 @RequestMapping("/sys/files")
 public class SysFilesController extends JeecgController<SysFiles, ISysFilesService> {
@@ -55,8 +55,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param req
      * @return
      */
-    @AutoLog(value = "素材管理-分页列表查询")
-    @ApiOperation(value = "素材管理-分页列表查询", notes = "素材管理-分页列表查询")
+    @AutoLog(value = "分页列表查询")
+    @ApiOperation(value = "分页列表查询", notes = "分页列表查询")
     @GetMapping(value = "/list")
     public Result<?> queryPageList(SysFiles sysFiles,
                                    @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
@@ -74,8 +74,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param sysFiles
      * @return
      */
-    @AutoLog(value = "素材管理-添加")
-    @ApiOperation(value = "素材管理-添加", notes = "素材管理-添加")
+    @AutoLog(value = "添加")
+    @ApiOperation(value = "添加", notes = "添加")
     @PostMapping(value = "/add")
     public Result<?> add(@RequestBody SysFiles sysFiles) {
         sysFilesService.save(sysFiles);
@@ -89,8 +89,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param request
      * @return
      */
-    @AutoLog(value = "素材管理-上传")
-    @ApiOperation(value = "素材管理-上传", notes = "素材管理-上传")
+    @AutoLog(value = "上传")
+    @ApiOperation(value = "上传", notes = "上传")
     @PostMapping(value = "/upload")
     public Result upload(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) {
         Result result = new Result();
@@ -113,8 +113,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param sysFiles
      * @return
      */
-    @AutoLog(value = "素材管理-编辑")
-    @ApiOperation(value = "素材管理-编辑", notes = "素材管理-编辑")
+    @AutoLog(value = "编辑")
+    @ApiOperation(value = "编辑", notes = "编辑")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<?> edit(@RequestBody SysFiles sysFiles) {
         sysFilesService.updateById(sysFiles);
@@ -127,8 +127,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param id
      * @return
      */
-    @AutoLog(value = "素材管理-通过id删除")
-    @ApiOperation(value = "素材管理-通过id删除", notes = "素材管理-通过id删除")
+    @AutoLog(value = "通过id删除")
+    @ApiOperation(value = "通过id删除", notes = "通过id删除")
     @DeleteMapping(value = "/delete")
     public Result<?> delete(@RequestParam(name = "id", required = true) String id) {
         sysFilesService.removeById(id);
@@ -141,8 +141,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param ids
      * @return
      */
-    @AutoLog(value = "素材管理-批量删除")
-    @ApiOperation(value = "素材管理-批量删除", notes = "素材管理-批量删除")
+    @AutoLog(value = "批量删除")
+    @ApiOperation(value = "批量删除", notes = "批量删除")
     @DeleteMapping(value = "/deleteBatch")
     public Result<?> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.sysFilesService.removeByIds(Arrays.asList(ids.split(",")));
@@ -155,8 +155,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param id
      * @return
      */
-    @AutoLog(value = "素材管理-通过id查询单个素材")
-    @ApiOperation(value = "素材管理-通过id查询单个素材", notes = "素材管理-通过id查询单个素材")
+    @AutoLog(value = "通过id查询单个素材")
+    @ApiOperation(value = "通过id查询单个素材", notes = "通过id查询单个素材")
     @GetMapping(value = "/queryById")
     public Result<?> queryById(@RequestParam(name = "id", required = true) String id) {
         SysFiles sysFiles = sysFilesService.getById(id);
@@ -169,8 +169,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param templateId
      * @return SysFilesTree
      */
-    @AutoLog(value = "素材管理-通过模板id查询素材包")
-    @ApiOperation(value = "素材管理-通过模板id查询素材包", notes = "素材管理-通过模板id查询素材包")
+    @AutoLog(value = "通过模板id查询素材包")
+    @ApiOperation(value = "通过模板id查询素材包", notes = "通过模板id查询素材包")
     @GetMapping(value = "/queryPackageByTemplateId")
     public Result<?> queryByTemplateId(@RequestParam(name = "templateId", required = true) Integer templateId, HttpServletRequest req) {
 //        VideoTemplate videoTemplate = videoTemplateService.getById(templateId);
@@ -186,8 +186,8 @@ public class SysFilesController extends JeecgController<SysFiles, ISysFilesServi
      * @param filesId
      * @return SysFilesTree
      */
-    @AutoLog(value = "素材管理-通过id查询素材包")
-    @ApiOperation(value = "素材管理-通过id查询素材包", notes = "素材管理-通过id查询素材包")
+    @AutoLog(value = "通过id查询素材包")
+    @ApiOperation(value = "通过id查询素材包", notes = "通过id查询素材包")
     @GetMapping(value = "/queryPackageById")
     public Result<?> queryPackageById(@RequestParam(name = "filesId", required = true) String filesId, HttpServletRequest req) {
         SysFilesTree sysFilesTree = sysFilesService.getSysFilesTree(filesId);

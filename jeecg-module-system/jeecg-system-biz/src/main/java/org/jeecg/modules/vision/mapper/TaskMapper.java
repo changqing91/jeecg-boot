@@ -1,7 +1,7 @@
 package org.jeecg.modules.vision.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.jeecg.modules.vision.entity.Task;
+import org.jeecg.modules.vision.entity.VideoJob;
 
 /**
  * @Description: vision_task
@@ -9,6 +9,6 @@ import org.jeecg.modules.vision.entity.Task;
  * @Date:   2023-04-24
  * @Version: V1.0
  */
-public interface TaskMapper extends BaseMapper<Task> {
+public interface TaskMapper extends BaseMapper<VideoJob> {
 
 }

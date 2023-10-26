@@ -39,4 +39,8 @@ public interface VideoTemplateVo {
     Integer getIsCurrent();
 
     String getCurrentVersionId();
+
+    String getRatio();
+
+    String getResolution();
 }
