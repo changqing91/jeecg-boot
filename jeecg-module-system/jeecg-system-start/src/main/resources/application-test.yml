@@ -22,8 +22,8 @@ management:
 spring:
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 1024MB
+      max-request-size: 1024MB
   mail:
     host: smtp.163.com
     username: ??
@@ -151,8 +151,15 @@ spring:
     password: ''
     database: 0
     cluster:
-      nodes: 172.23.47.15:7251
-    timeout: 60000
+      nodes:
+        - 10.150.14.24:6898
+        - 10.150.13.48:7003
+        - 10.150.14.47:7091
+        - 10.150.17.40:6883
+        - 10.150.14.25:7116
+        - 10.150.17.45:7033
+      timeout: 60000
+
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath*:org/jeecg/modules/**/xml/*Mapper.xml
@@ -171,7 +178,7 @@ mybatis-plus:
     call-setters-on-nulls: true
 #jeecg专用配置
 minidao:
-  base-package: org.jeecg.modules.jmreport.*
+  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*
 jeecg:
   # 是否启用安全模式
   safeMode: false

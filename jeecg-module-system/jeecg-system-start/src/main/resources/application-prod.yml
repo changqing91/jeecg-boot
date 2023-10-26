@@ -22,8 +22,8 @@ management:
 spring:
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 1024MB
+      max-request-size: 1024MB
   mail:
     host: smtp.163.com
     username: ??
@@ -131,9 +131,9 @@ spring:
         connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-          username: root
-          password: root
+          url: jdbc:mysql://127.0.0.1:3306/next_video?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: next_video
+          password: P9vfE1yKow9pPCQRJaj9Cnu1RoisHBPS
           driver-class-name: com.mysql.cj.jdbc.Driver
           # 多数据源配置
           #multi-datasource1:
@@ -142,11 +142,25 @@ spring:
           #password: root
           #driver-class-name: com.mysql.cj.jdbc.Driver
   #redis 配置
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    port: 6379
+#    password: ''
   redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
     password: ''
+    database: 0
+    cluster:
+      nodes:
+        - 10.159.144.43:6806
+        - 10.159.140.27:6806
+        - 10.159.138.49:6806
+        - 10.159.132.49:6806
+        - 10.159.142.47:6806
+        - 10.159.136.29:6806
+        - 10.159.138.29:6806
+        - 10.159.142.48:6806
+      timeout: 60000
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath*:org/jeecg/modules/**/xml/*Mapper.xml
@@ -165,7 +179,7 @@ mybatis-plus:
     call-setters-on-nulls: true
 #jeecg专用配置
 minidao:
-  base-package: org.jeecg.modules.jmreport.*
+  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*
 jeecg:
   # 是否启用安全模式
   safeMode: false
@@ -188,11 +202,15 @@ jeecg:
     excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**,/api/getUserInfo
   #阿里云oss存储和大鱼短信秘钥配置
   oss:
-    accessKey: ??
-    secretKey: ??
-    endpoint: oss-cn-beijing.aliyuncs.com
-    bucketName: jeecgdev
-    staticDomain: https://static.jeecg.com
+    accessKey: fjI1zVihJS0RfMkV
+    secretKey: bb2xQQZR6FaQCwgckF6ZiOJcfKD9smGX
+    endpoint: http://shylf-inner-boss.bilibili.co
+    bucketName: OpenMediaManager
+#    accessKey: ??
+#    secretKey: ??
+#    endpoint: oss-cn-beijing.aliyuncs.com
+#    bucketName: jeecgdev
+#    staticDomain: https://static.jeecg.com
   # ElasticSearch 设置
   elasticsearch:
     cluster-name: jeecg-ES

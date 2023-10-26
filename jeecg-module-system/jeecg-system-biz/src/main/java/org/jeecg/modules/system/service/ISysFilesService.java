@@ -17,5 +17,5 @@ public interface ISysFilesService extends IService<SysFiles> {
 
     String upload(MultipartFile multipartFile, String username) throws Exception;
 
-    List<SysFilesTree> getSysFilesTree(String sysFilesId)  throws Exception;
+    SysFilesTree getSysFilesTree(String sysFilesId);
 }

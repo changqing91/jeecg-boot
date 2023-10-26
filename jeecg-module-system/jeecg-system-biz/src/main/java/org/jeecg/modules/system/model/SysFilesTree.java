@@ -7,6 +7,7 @@ import org.jeecg.modules.system.entity.SysFiles;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -37,7 +38,7 @@ public class SysFilesTree {
     private String userData;
     private String realname;
     private String zipName;
-    private ArrayList<SysFiles> children;
+    private List<SysFilesTree> children;
 
     // constructor
     public SysFilesTree(SysFiles node) {

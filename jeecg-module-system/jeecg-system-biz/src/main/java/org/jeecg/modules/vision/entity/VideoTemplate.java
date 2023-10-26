@@ -29,170 +29,89 @@ import lombok.experimental.Accessors;
 public class VideoTemplate implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 自增Id
-     */
+    /**id*/
     @TableId(type = IdType.ASSIGN_ID)
-    @ApiModelProperty(value = "自增Id")
-    private java.lang.Integer id;
-    /**
-     * title
-     */
-    @Excel(name = "title", width = 15)
-    @ApiModelProperty(value = "title")
-    private java.lang.String title;
-    /**
-     * code
-     */
-    @Excel(name = "code", width = 15)
-    @ApiModelProperty(value = "title")
-    private java.lang.String code;
-    /**
-     * videoUrl
-     */
-    @Excel(name = "videoUrl", width = 15)
-    @ApiModelProperty(value = "videoUrl")
-    private java.lang.String videoUrl;
-    /**
-     * coverImage
-     */
-    @Excel(name = "coverImage", width = 15)
-    @ApiModelProperty(value = "coverImage")
-    private java.lang.String coverImage;
-    /**
-     * description
-     */
-    @Excel(name = "description", width = 15)
-    @ApiModelProperty(value = "description")
+    @ApiModelProperty(value = "id")
+    private java.lang.String id;
+    /**模板名称*/
+    @Excel(name = "模板名称", width = 15)
+    @ApiModelProperty(value = "模板名称")
+    private java.lang.String name;
+    /**描述*/
+    @Excel(name = "描述", width = 15)
+    @ApiModelProperty(value = "描述")
     private java.lang.String description;
-    /**
-     * shareConfig
-     */
-    @Excel(name = "shareConfig", width = 15)
-    @ApiModelProperty(value = "shareConfig")
-    private java.lang.String shareConfig;
-    /**
-     * pages
-     */
-    @Excel(name = "pages", width = 15)
-    @ApiModelProperty(value = "pages")
-    private java.lang.String pages;
-    /**
-     * script
-     */
-    @Excel(name = "script", width = 15)
-    @ApiModelProperty(value = "script")
-    private java.lang.String script;
-    /**
-     * author
-     */
-    @Excel(name = "author", width = 15)
-    @ApiModelProperty(value = "author")
-    private java.lang.String author;
-    /**
-     * ratio
-     */
-    @Excel(name = "ratio", width = 15)
-    @ApiModelProperty(value = "ratio")
-    private java.lang.String ratio;
-    /**
-     * width
-     */
+    /**封面图片地址*/
+    @Excel(name = "封面图片地址", width = 15)
+    @ApiModelProperty(value = "封面图片地址")
+    private java.lang.String coverImageUrl;
+    /**主合成命名*/
+    @Excel(name = "主合成命名", width = 15)
+    @ApiModelProperty(value = "主合成命名")
+    private java.lang.String mainRenderName;
+    /**width*/
     @Excel(name = "width", width = 15)
     @ApiModelProperty(value = "width")
     private java.lang.Integer width;
-    /**
-     * height
-     */
+    /**height*/
     @Excel(name = "height", width = 15)
     @ApiModelProperty(value = "height")
     private java.lang.Integer height;
-    /**
-     * pageMode
-     */
-    @Excel(name = "pageMode", width = 15)
-    @ApiModelProperty(value = "pageMode")
-    private java.lang.String pageMode;
-    /**
-     * flipType
-     */
-    @Excel(name = "flipType", width = 15)
-    @ApiModelProperty(value = "flipType")
-    private java.lang.Integer flipType;
-    /**
-     * slideNumber
-     */
-    @Excel(name = "slideNumber", width = 15)
-    @ApiModelProperty(value = "slideNumber")
-    private java.lang.Integer slideNumber;
-    /**
-     * state
-     */
-    @Excel(name = "state", width = 15)
-    @ApiModelProperty(value = "state")
-    private java.lang.Integer state;
-    /**
-     * isPublish
-     */
-    @Excel(name = "isPublish", width = 15)
-    @ApiModelProperty(value = "isPublish")
-    private java.lang.Integer isPublish;
-    /**
-     * isTemplate
-     */
-    @Excel(name = "isTemplate", width = 15)
-    @ApiModelProperty(value = "isTemplate")
-    private java.lang.Integer isTemplate;
-    /**
-     * members
-     */
-    @Excel(name = "members", width = 15)
-    @ApiModelProperty(value = "members")
-    private java.lang.String members;
-    /**
-     * version
-     */
+    /**分辨率*/
+    @Excel(name = "resolution", width = 15)
+    @ApiModelProperty(value = "resolution")
+    private java.lang.String resolution;
+    /**比例：16:9*/
+    @Excel(name = "ratio", width = 15)
+    @ApiModelProperty(value = "ratio")
+    private java.lang.String ratio;
+    /**version*/
     @Excel(name = "version", width = 15)
     @ApiModelProperty(value = "version")
     private java.lang.String version;
-    /**
-     * 软删除
-     */
+    /**author*/
+    @Excel(name = "author", width = 15)
+    @ApiModelProperty(value = "author")
+    private java.lang.String author;
+    /**帧率*/
+    @Excel(name = "帧率", width = 15)
+    @ApiModelProperty(value = "帧率")
+    private java.lang.Integer fps;
+    /**bitRate*/
+    @Excel(name = "bitRate", width = 15)
+    @ApiModelProperty(value = "bitRate")
+    private java.lang.String bitRate;
+    /**Available：可用，有版本状态可生产视频
+     Created：已创建，未产生版本
+     Uploading：正在上传
+     Processing：正在执行AE工程解析
+     UploadFailed：上传失败
+     ProcessFailed：解析失败*/
+    @Excel(name = "Available：可用，有版本状态可生产视频；Created：已创建，未产生版本；Uploading：正在上传；Processing：正在执行AE工程解析；UploadFailed：上传失败；ProcessFailed：解析失败", width = 15)
+    @ApiModelProperty(value = "Available：可用，有版本状态可生产视频；Created：已创建，未产生版本；Uploading：正在上传；Processing：正在执行AE工程解析；UploadFailed：上传失败；ProcessFailed：解析失败")
+    private java.lang.String status;
+    /**预览视频地址*/
+    @Excel(name = "预览视频地址", width = 15)
+    @ApiModelProperty(value = "预览视频地址")
+    private java.lang.String previewVideoUrl;
+    /**isPublish*/
+    @Excel(name = "isPublish", width = 15)
+    @ApiModelProperty(value = "isPublish")
+    private java.lang.Integer isPublish;
+    /**软删除*/
     @Excel(name = "软删除", width = 15)
     @ApiModelProperty(value = "软删除")
-    private java.lang.Integer isdelete;
-    /**
-     * 商品数量
-     */
-    @Excel(name = "商品数量", width = 15)
-    @ApiModelProperty(value = "商品数量")
-    private java.lang.Integer goodsCount;
-    /**
-     * 提交步骤
-     */
-    @Excel(name = "提交步骤", width = 15)
-    @ApiModelProperty(value = "提交步骤")
-    private java.lang.Integer step;
-    /**
-     * 素材Id
-     */
-    @Excel(name = "素材Id", width = 15)
-    @ApiModelProperty(value = "素材Id")
-    private String filesId;
-    /**
-     * ctime
-     */
-    @Excel(name = "ctime", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private java.lang.Integer isDelete;
+    /**ctime*/
+    @Excel(name = "ctime", width = 20, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "ctime")
     private java.util.Date ctime;
-    /**
-     * mtime
-     */
-    @Excel(name = "mtime", width = 15, format = "yyyy-MM-dd")
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    /**mtime*/
+    @Excel(name = "mtime", width = 20, format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "mtime")
     private java.util.Date mtime;
 }

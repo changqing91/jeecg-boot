@@ -22,8 +22,8 @@ management:
 spring:
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 1024MB
+      max-request-size: 1024MB
   mail:
     host: smtp.163.com
     username: jeecgos@163.com
@@ -133,7 +133,7 @@ spring:
         master:
           url: jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
           username: root
-          password: password
+          password: a123456
           driver-class-name: com.mysql.cj.jdbc.Driver
           # 多数据源配置
           #multi-datasource1:
@@ -142,17 +142,17 @@ spring:
           #password: root
           #driver-class-name: com.mysql.cj.jdbc.Driver
   #redis 配置
-#  redis:
-#    database: 0
-#    host: 127.0.0.1
-#    port: 6379
-#    password: ''
   redis:
-    password: ''
     database: 0
-    cluster:
-      nodes: 172.23.47.15:7251
-    timeout: 60000
+    host: 127.0.0.1
+    port: 6379
+    password: ''
+#  redis:
+#    password: ''
+#    database: 0
+#    cluster:
+#      nodes: 10.159.144.43:6806
+#    timeout: 60000
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath*:org/jeecg/modules/**/xml/*Mapper.xml
@@ -171,7 +171,7 @@ mybatis-plus:
     call-setters-on-nulls: true
 #jeecg专用配置
 minidao:
-  base-package: org.jeecg.modules.jmreport.*
+  base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*
 jeecg:
   # 是否启用安全模式
   safeMode: false
@@ -205,6 +205,8 @@ jeecg:
     appSecret: 5b144d2678ede61535a8e96a1231d2eb
     topic: Video-New-T
     group: Video-New-OpenFrontendNextVideo-P
+    env: uat
+    zone: sh001
   # ElasticSearch 6设置
   elasticsearch:
     cluster-name: jeecg-ES

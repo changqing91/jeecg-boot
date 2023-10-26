@@ -10,7 +10,7 @@
     name VARCHAR(50) not null,
     remark VARCHAR(100),
     FOREIGN KEY (sys_files_id) REFERENCES sys_files(id),
-    FOREIGN KEY (vision_video_template_id) REFERENCES vision_video_template(id)
+    FOREIGN KEY (vision_video_template_id) REFERENCES vision_video_template_version(id)
     ) ENGINE=InnoDB; -- 使用 InnoDB 表引擎，支持外键
     ```
 4. add fk of files_id for vision_video_template

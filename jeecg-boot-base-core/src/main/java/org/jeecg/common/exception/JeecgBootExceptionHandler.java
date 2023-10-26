@@ -9,7 +9,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.connection.PoolException;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -77,6 +79,16 @@ public class JeecgBootExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public Result<?> handleException(Exception e){
 		log.error(e.getMessage(), e);
+
+		if (e instanceof MethodArgumentNotValidException) {
+			MethodArgumentNotValidException ex = (MethodArgumentNotValidException) e;
+			FieldError fieldError = ex.getBindingResult().getFieldError();
+			if (fieldError != null) {
+				String errorMessage = fieldError.getDefaultMessage();
+				return Result.error(HttpStatus.BAD_REQUEST.value(), errorMessage);
+			}
+			return Result.error("操作失败，"+e.getMessage());
+		}
 		//update-begin---author:zyf ---date:20220411  for：处理Sentinel限流自定义异常
 		Throwable throwable = e.getCause();
 		SentinelErrorInfoEnum errorInfoEnum = SentinelErrorInfoEnum.getErrorByException(throwable);
@@ -86,7 +98,7 @@ public class JeecgBootExceptionHandler {
 		//update-end---author:zyf ---date:20220411  for：处理Sentinel限流自定义异常
 		return Result.error("操作失败，"+e.getMessage());
 	}
-	
+
 	/**
 	 * @Author 政辉
 	 * @param e
@@ -117,7 +129,7 @@ public class JeecgBootExceptionHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public Result<?> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
     	log.error(e.getMessage(), e);
-        return Result.error("文件大小超出10MB限制, 请压缩或降低文件质量! ");
+        return Result.error("文件大小超出1024MB限制, 请压缩或降低文件质量! ");
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
